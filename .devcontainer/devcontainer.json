@@ -1,0 +1,15 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "aspnet-razor-starter",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "forwardPorts": [5000],
+  "postCreateCommand": "dotnet new webapp -n RazorPagesStarter && cd RazorPagesStarter && dotnet restore"
+}
