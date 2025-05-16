@@ -5,16 +5,15 @@ namespace RazorPagesStarter.Pages;
 
 public class IndexModel : PageModel
 {
-    [BindProperty]
-    public string? UserName { get; set; }
+    private readonly ILogger<IndexModel> _logger;
 
-    public string? Greeting { get; set; }
-
-    public void OnPost()
+    public IndexModel(ILogger<IndexModel> logger)
     {
-        if (!string.IsNullOrWhiteSpace(UserName))
-        {
-            Greeting = $"Hello, {UserName}!";
-        }
+        _logger = logger;
+    }
+
+    public void OnGet()
+    {
+
     }
 }
