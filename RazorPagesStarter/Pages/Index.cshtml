@@ -16,6 +16,11 @@
     <button type="submit" class="btn btn-primary">Greet Me</button>
 </form>
 
+@if (TempData["Message"] is string msg)
+{
+    <div class="alert alert-info">@msg</div>
+}
+
 <partial name="_GreetingPartial" model="Model.Greeting" />
 
 @section Scripts {
