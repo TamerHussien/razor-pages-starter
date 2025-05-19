@@ -1,0 +1,24 @@
+﻿@page "{id:int}"
+@model RazorPagesStarter.Pages.Books.EditModel
+@{
+    ViewData["Title"] = "Edit Book";
+}
+
+<h2>Edit Book</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Book.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Book.Title" class="form-label"></label>
+        <input asp-for="Book.Title" class="form-control" />
+        <span asp-validation-for="Book.Title" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-page="/Books/Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -24,6 +24,7 @@ else
         {
             <li class="list-group-item d-flex justify-content-between">
                 <span>@book.Title</span>
+                <a asp-page="/Books/Edit" asp-route-id="@book.Id" class="btn btn-warning btn-sm me-2">Edit</a>
                 <form method="post" asp-page-handler="Delete">
                     <input type="hidden" name="id" value="@book.Id" />
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
