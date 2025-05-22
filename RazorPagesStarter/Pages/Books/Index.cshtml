@@ -19,6 +19,15 @@
 }
 else
 {
+    <form method="get" class="mb-3 d-flex align-items-center gap-2">
+        <input type="text" name="search" value="@Model.Search" placeholder="Search title..." class="form-control w-25" />
+        <select name="sort" class="form-select w-auto">
+            <option value="">Sort: A → Z</option>
+            <option value="desc" selected="@("desc" == Model.Sort)">Z → A</option>
+        </select>
+        <button type="submit" class="btn btn-outline-primary">Apply</button>
+    </form>
+
     <ul class="list-group">
         @foreach (var book in Model.BookList)
         {

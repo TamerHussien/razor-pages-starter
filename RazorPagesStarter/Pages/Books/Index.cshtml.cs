@@ -5,37 +5,48 @@ using RazorPagesStarter.Data;
 using RazorPagesStarter.Models;
 namespace RazorPagesStarter.Pages.Books
 {
-    public class IndexModel : PageModel
+   public class IndexModel : PageModel
+{
+    private readonly AppDbContext _db;
+
+    public IndexModel(AppDbContext db) => _db = db;
+
+    public List<Book> BookList { get; set; } = [];
+
+    [BindProperty(SupportsGet = true)]
+    public string? Search { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? Sort { get; set; }
+
+    [TempData]
+    public string? Message { get; set; }
+
+    public async Task OnGetAsync()
     {
-        private readonly AppDbContext _db;
+        var query = _db.Books.AsQueryable();
 
-        public IndexModel(AppDbContext db)
-        {
-            _db = db;
-        }
+        if (!string.IsNullOrWhiteSpace(Search))
+            query = query.Where(b => b.Title!.Contains(Search));
 
-        public List<Book> BookList { get; set; } = [];
+        query = Sort == "desc"
+            ? query.OrderByDescending(b => b.Title)
+            : query.OrderBy(b => b.Title);
 
-        [TempData]
-        public string? Message { get; set; }
-
-        public async Task OnGetAsync()
-        {
-            BookList = await _db.Books.AsNoTracking().ToListAsync();
-        }
-
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
-        {
-
-            Console.WriteLine($"Deleting book with ID: {id}");
-            var book = await _db.Books.FindAsync(id);
-            if (book is not null)
-            {
-                _db.Books.Remove(book);
-                await _db.SaveChangesAsync();
-                Message = $"Deleted '{book.Title}'";
-            }
-            return RedirectToPage("/Books/Index");
-        }
+        BookList = await query.AsNoTracking().ToListAsync();
     }
+
+    public async Task<IActionResult> OnPostDeleteAsync(int id)
+    {
+        var book = await _db.Books.FindAsync(id);
+        if (book is not null)
+        {
+            _db.Books.Remove(book);
+            await _db.SaveChangesAsync();
+            Message = $"Deleted '{book.Title}'";
+        }
+        return RedirectToPage("/Books/Index");
+    }
+}
+
 }
